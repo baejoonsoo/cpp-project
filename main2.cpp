@@ -42,6 +42,9 @@ int main() {
       case 3:
         myList->bookFinder();
         break;
+      case 4:
+        myList->delBook();
+        break;
       case 0:
         cout << "종료합니다!\n";
         delete myList;

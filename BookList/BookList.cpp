@@ -23,9 +23,9 @@ BookList::~BookList(){
   node* temp;
   while(headNode){
     temp=headNode;
-    headNode=headNode->next;
+    headNode=headNode->right;
 
-    delete headNode;
+    delete temp;
   }
   tailNode=nullptr;
 }
@@ -39,9 +39,10 @@ void BookList::dataInsert(string book){
   node* newNode=new node;
 
   // node에 고유번호를 부여한다. (count++)
-  newNode->id = count++; 
+  // newNode->id = count++; 
   newNode->bookName=book;
-  newNode->next=nullptr;
+  newNode->left=nullptr;
+  newNode->right=nullptr;
 
   // 리스트가 비어 있을 경우
   if(headNode==nullptr){
@@ -50,7 +51,8 @@ void BookList::dataInsert(string book){
     return;
   }
   // 리스트가 비어있지 않을 때
-  tailNode->next=newNode;
+  tailNode->right=newNode;
+  newNode->left=tailNode;
   tailNode=newNode;
 }
 
@@ -70,11 +72,12 @@ void BookList::Print() const{
 
   this->terminalClear();
 
+  int number=1;
   if(this->headNode){
     cout<<"\n| Book List |\n";
     cout<<"-------------------------------------------------------\n";
-    for(node* temp=this->headNode; temp!=nullptr;temp=temp->next){
-      cout<<temp->id<<". "<<temp->bookName<<"\n";
+    for(node* temp=this->headNode; temp!=nullptr;temp=temp->right, number++){
+      cout<<number<<". "<<temp->bookName<<"\n";
       cout<<"-------------------------------------------------------\n";
     }
   }

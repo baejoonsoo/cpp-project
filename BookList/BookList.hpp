@@ -3,13 +3,13 @@
 using namespace std;
 
 struct node{
-  int id;
   string bookName;
 
   bool rental;
   string rentalUser;
 
-  node* next;
+  node* left;
+  node* right;
 };
 
 class BookList{
@@ -27,7 +27,7 @@ class BookList{
     virtual ~BookList();
 
     void Insert();
-    void ShowMenu() const;
+    virtual void ShowMenu() const;
     void Print() const;
 };
 
@@ -42,4 +42,9 @@ class BookManagement:public BookList{
     virtual ~BookManagement();
     void bookFinder() const;
     virtual void ShowMenu() const;
+    void delBook();
+    virtual void print() const;
+    void bookRental() const;
+    void bookReturn() const;
+
 };
