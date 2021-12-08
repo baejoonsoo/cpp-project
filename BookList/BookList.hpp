@@ -17,9 +17,10 @@ class BookList{
     static int count;
     node* headNode;
     node* tailNode;
+    node* pointerFinder(string book) const;
     void dataInsert(string book);
     void terminalClear() const;
-    void delBackempty();
+    void delBackempty(string& str);
   public:
     BookList();
     BookList(string book);
@@ -28,23 +29,22 @@ class BookList{
 
     void Insert();
     virtual void ShowMenu() const;
-    void Print() const;
+    virtual void Print() const;
 };
 
 
 class BookManagement:public BookList{
   private:
-    node* pointerFinder(string book) const;
   public:
     BookManagement();
     BookManagement(string book);
     BookManagement(string* books, int len);
     virtual ~BookManagement();
-    void bookFinder() const;
     virtual void ShowMenu() const;
+    virtual void Print() const;
     void delBook();
-    virtual void print() const;
-    void bookRental() const;
-    void bookReturn() const;
+    void bookFinder();
+    void bookRental();
+    void bookReturn();
 
 };

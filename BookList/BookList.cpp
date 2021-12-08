@@ -56,6 +56,15 @@ void BookList::dataInsert(string book){
   tailNode=newNode;
 }
 
+node* BookList::pointerFinder(string book) const{
+  for(node* t=headNode;t!=nullptr;t=t->right){
+    if(t->bookName==book){
+      return t;
+    }
+  }
+  return nullptr;
+}
+
 void BookList::Insert(){
   string book;
   
@@ -64,6 +73,17 @@ void BookList::Insert(){
   cout<<"\n책의 이름을 입력해 주세요\n>> ";
   getline(cin,book);
   getline(cin,book);
+
+  this->delBackempty(book);
+
+  if(book=="return"){
+    return;
+  }
+
+  if(this->pointerFinder(book)){
+    cout<<"이미 있는 책 이름입니다!\n";
+    return;
+  }
 
   dataInsert(book);
 }
@@ -93,4 +113,11 @@ void BookList::ShowMenu() const{
   cout<<"2 : print\n";
   cout<<"0 : exit\n";
   cout<<"============\n";
+}
+
+
+void BookList::delBackempty(string& str){
+  int last = str.find_first_of(" ");
+
+  str=str.substr(0, last);
 }

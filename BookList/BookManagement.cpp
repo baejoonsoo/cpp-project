@@ -32,21 +32,20 @@ BookManagement::~BookManagement(){
   tailNode=nullptr;
 }
 
-node* BookManagement::pointerFinder(string book) const{
-  for(node* t=headNode;t!=nullptr;t=t->right){
-    if(t->bookName==book){
-      return t;
-    }
-  }
-  return nullptr;
-}
-
-void BookManagement::bookFinder() const{
+void BookManagement::bookFinder(){
   string book;
 
   this->terminalClear();
   cout<<"\n검색할 책 이름을 입력하세요!\n>> ";
-  cin>>book;
+  getline(cin,book);
+  getline(cin,book);
+
+  delBackempty(book);
+
+  if(book=="return"){
+    return;
+  }
+
 
   node* t=this->pointerFinder(book);
 
@@ -65,6 +64,8 @@ void BookManagement::ShowMenu() const{
   cout<<"2 : print\n";
   cout<<"3 : book finder\n";
   cout<<"4 : book delete\n";
+  cout<<"5 : book rental\n";
+  cout<<"6 : book return\n";
   cout<<"0 : exit\n";
   cout<<"================\n";
 }
@@ -72,8 +73,20 @@ void BookManagement::ShowMenu() const{
 void BookManagement::delBook(){
   string book;
 
+    this->terminalClear();
+
   cout<<"삭제하고 싶은 책의 제목을 입력하세요.\n>> ";
-  cin>>book;
+  // cin>>book;
+  getline(cin,book);
+  getline(cin,book);
+
+  this->delBackempty(book);
+
+  cout<<"\'"<<book<<"\'\n";
+
+  if(book=="return"){
+    return;
+  }
 
   node* del = this->pointerFinder(book);
   node* temp=del;
@@ -104,39 +117,83 @@ void BookManagement::delBook(){
   }
 }
 
-void BookManagement::bookRental() const{
+void BookManagement::bookRental(){
   string bookName,userName;
-  
+
+  this->terminalClear();
+
   cout<<"당신의 이름을 입력하세요.\n>> ";
-  cin>>userName;
+  getline(cin,userName);
+  getline(cin,userName);
+
+  this->delBackempty(userName);
+
+  if(userName=="return"){
+    return;
+  }
 
   cout<<"대여할 책 이름을 입력하세요.\n>> ";
-  cin>>bookName;
+  getline(cin,bookName);
+
+  this->delBackempty(bookName);
+
+  if(bookName=="return"){
+    return;
+  }
+
 
   node* t = this->pointerFinder(bookName);
 
   if(t){
     if(t->rental){
-      cout<<"빌릴 수 없는 책입니다. (대여인 : "<<t->rentalUser<<")\n";
+      cout<<"이미 대여된 책입니다. (대여인 : "<<t->rentalUser<<")\n";
     }
     else{
       t->rental=true;
       t->rentalUser=userName;
-      cout<<"책을 대여합니다!\n책 제목 : "<<t->bookName<<"사용자명 : "<<t->rentalUser<<"\n\n";
+      cout<<"책을 대여합니다!\n책 제목 : "<<t->bookName<<"\n사용자명 : "<<t->rentalUser<<"\n\n";
     }
   }
   else{
-    cout<<"찾을 수 없는 책입니다.\n";
+    cout<<"<"<<bookName<<">책은 찾을 수 없는 책입니다.\n";
   }
 }
 
-void BookManagement::bookRental() const{
-  
-}
-
-void BookList::Print() const{
+void BookManagement::bookReturn(){
+  string bookName;
 
   this->terminalClear();
+
+  cout<<"반납할 책의 이름을 입력하세요.\n>> ";
+  getline(cin,bookName);
+  getline(cin,bookName);
+
+  this->delBackempty(bookName);
+
+  if(bookName=="return"){
+    return;
+  }
+
+  node* t = this->pointerFinder(bookName);
+
+  if(t){
+    if(t->rental){
+      t->rental=false;
+      cout<<"책을 반납합니다!\n책 제목 : "<<t->bookName<<"\n반납자명 : "<<t->rentalUser<<"\n\n";
+    }
+    else{
+      cout<<"이미 반납된 책입니다.\n";
+    }
+  }
+  else{
+    cout<<"<"<<bookName<<">책은 찾을 수 없는 책입니다.\n";
+  }
+
+
+}
+
+void BookManagement::Print() const{
+  this->terminalClear();  
 
   int number=1;
   if(this->headNode){
@@ -144,6 +201,9 @@ void BookList::Print() const{
     cout<<"-------------------------------------------------------\n";
     for(node* temp=this->headNode; temp!=nullptr;temp=temp->right, number++){
       cout<<number<<". "<<temp->bookName<<"\n";
+      if(temp->rental){
+        cout<<"대여 상태 입니다!\n(대여한 유저 : "<<temp->rentalUser<<")\n";
+      }
       cout<<"-------------------------------------------------------\n";
     }
   }

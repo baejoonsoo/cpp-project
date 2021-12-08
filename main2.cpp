@@ -45,6 +45,12 @@ int main() {
       case 4:
         myList->delBook();
         break;
+      case 5:
+        myList->bookRental();
+        break;
+      case 6:
+        myList->bookReturn();
+        break;
       case 0:
         cout << "종료합니다!\n";
         delete myList;
