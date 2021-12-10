@@ -1,21 +1,17 @@
 #include <iostream>
 #include "BookList.hpp"
-// #include "../BookList/BookList.hpp"
 using namespace std;
-
-
 
 BookManagement::BookManagement(){
   headNode=nullptr;
   tailNode=nullptr;
-  // cout<<"bookManagement\n";
 }
 
-BookManagement::BookManagement(string Book){
+BookManagement::BookManagement(string Book):BookManagement::BookManagement(){
   dataInsert(Book);
 }
 
-BookManagement::BookManagement(string* Books, int len){
+BookManagement::BookManagement(string* Books, int len):BookManagement::BookManagement(){
   for(int i=0;i<len;i++){
     dataInsert(Books[i]);
   }
@@ -43,6 +39,7 @@ void BookManagement::bookFinder(){
   delBackempty(book);
 
   if(book=="return"){
+    cout<<"메뉴로 돌아갑니다\n";
     return;
   }
 
@@ -82,9 +79,8 @@ void BookManagement::delBook(){
 
   this->delBackempty(book);
 
-  cout<<"\'"<<book<<"\'\n";
-
   if(book=="return"){
+    cout<<"메뉴로 돌아갑니다\n";
     return;
   }
 
@@ -93,7 +89,6 @@ void BookManagement::delBook(){
 
   if(del){
     if(del->left==nullptr){
-      cout<<"head\n";
       headNode=headNode->right;
 
       if(headNode){
@@ -101,16 +96,15 @@ void BookManagement::delBook(){
       }
     }
     else if(del->right==nullptr){
-      cout<<"tail\n";
       tailNode=tailNode->left;
       tailNode->right=nullptr;
     }
     else if(del->left!=nullptr&&del->right!=nullptr){
-      cout<<"m\n";
       del->left->right=del->right;
       del->right->left=del->left;
     }
     delete temp;
+    count--;
   }
   else{
     cout<<"책이 없습니다\n\n";
@@ -129,6 +123,7 @@ void BookManagement::bookRental(){
   this->delBackempty(userName);
 
   if(userName=="return"){
+    cout<<"메뉴로 돌아갑니다\n";
     return;
   }
 
@@ -138,6 +133,7 @@ void BookManagement::bookRental(){
   this->delBackempty(bookName);
 
   if(bookName=="return"){
+    cout<<"메뉴로 돌아갑니다\n";
     return;
   }
 
@@ -171,6 +167,7 @@ void BookManagement::bookReturn(){
   this->delBackempty(bookName);
 
   if(bookName=="return"){
+    cout<<"메뉴로 돌아갑니다\n";
     return;
   }
 
@@ -192,20 +189,29 @@ void BookManagement::bookReturn(){
 
 }
 
-void BookManagement::Print() const{
-  this->terminalClear();  
-
+void BookManagement::printBookData() const{ 
+  // 정말 의미 없지만 private 필수라는 조건을 위한 함수
   int number=1;
+
+  for(node* temp=this->headNode; temp!=nullptr;temp=temp->right, number++){
+    cout<<number<<". "<<temp->bookName<<"\n";
+
+  if(temp->rental){
+    cout<<"대여 상태 입니다!\n(대여한 유저 : "<<temp->rentalUser<<")\n";
+  }
+    cout<<"-------------------------------------------------------\n";
+  }
+}
+
+void BookManagement::Print() const{
+  this->terminalClear();
+
   if(this->headNode){
     cout<<"\n| Book List |\n";
     cout<<"-------------------------------------------------------\n";
-    for(node* temp=this->headNode; temp!=nullptr;temp=temp->right, number++){
-      cout<<number<<". "<<temp->bookName<<"\n";
-      if(temp->rental){
-        cout<<"대여 상태 입니다!\n(대여한 유저 : "<<temp->rentalUser<<")\n";
-      }
-      cout<<"-------------------------------------------------------\n";
-    }
+    this->printBookData();
+    
+    cout<<"책 갯수"<<count<<"\n";
   }
   else{
     cout<<"\n책이 존재하지 않습니다!\n";

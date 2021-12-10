@@ -35,10 +35,12 @@ class BookList{
 
 class BookManagement:public BookList{
   private:
+    void printBookData() const;
   public:
     BookManagement();
     BookManagement(string book);
     BookManagement(string* books, int len);
+
     virtual ~BookManagement();
     virtual void ShowMenu() const;
     virtual void Print() const;
@@ -46,5 +48,4 @@ class BookManagement:public BookList{
     void bookFinder();
     void bookRental();
     void bookReturn();
-
 };

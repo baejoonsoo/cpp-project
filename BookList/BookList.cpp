@@ -37,6 +37,7 @@ void BookList::terminalClear() const {
 
 void BookList::dataInsert(string book){
   node* newNode=new node;
+  count++;
 
   // node에 고유번호를 부여한다. (count++)
   // newNode->id = count++; 
@@ -77,6 +78,7 @@ void BookList::Insert(){
   this->delBackempty(book);
 
   if(book=="return"){
+    cout<<"메뉴로 돌아갑니다\n";
     return;
   }
 
@@ -100,6 +102,7 @@ void BookList::Print() const{
       cout<<number<<". "<<temp->bookName<<"\n";
       cout<<"-------------------------------------------------------\n";
     }
+    cout<<"책 갯수"<<count<<"\n";
   }
   else{
     cout<<"\n책이 존재하지 않습니다!\n";
@@ -117,7 +120,9 @@ void BookList::ShowMenu() const{
 
 
 void BookList::delBackempty(string& str){
-  int last = str.find_first_of(" ");
+  int last=str.length()-1;
 
-  str=str.substr(0, last);
+  while(str[last]==' ') last--;
+  
+  str=str.substr(0, last+1);
 }

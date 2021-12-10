@@ -56,7 +56,7 @@ int main() {
         delete myList;
         return 0;
       default:
-        cout << " 0, 1, 2 중 숫자를 입력하세요~!\n";
+        cout << " 0 ~ 6 중 숫자를 입력하세요~!\n";
         continue;
     }
   }
